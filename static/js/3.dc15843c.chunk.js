@@ -1,0 +1,2 @@
+(this["webpackJsonpreact-client"]=this["webpackJsonpreact-client"]||[]).push([[3],{13:function(t,n,r){"use strict";var c=r.w[t.i];t.exports=c,c.c()},15:function(t,n,r){"use strict";r.r(n),r.d(n,"add_two_ints",(function(){return i})),r.d(n,"fib",(function(){return e}));var c=r(13);function i(t,n){return c.a(t,n)>>>0}function e(t){return c.b(t)>>>0}}}]);
+//# sourceMappingURL=3.dc15843c.chunk.js.map
