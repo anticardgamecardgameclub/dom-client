@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compile-wasm": "wasm-pack build --out-dir ../wasm-build"
+    "build": "wasm-pack build --out-dir ../wasm-build"
   },
   "author": "",
   "license": "ISC"
