@@ -1,0 +1,11 @@
+{
+  "name": "rust-wasm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile-wasm": "wasm-pack build --out-dir ../wasm-build"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -359,6 +359,17 @@ module.exports = function (webpackEnv) {
       rules: [
         // Disable require.ensure as it's not a standard language feature.
         { parser: { requireEnsure: false } },
+        //handle wasm
+        { 
+          test: /\.wasm$/, // only load WASM files (ending in .wasm)
+          // only files in our src/ folder
+          include: path.resolve(__dirname, "src"), 
+          use: [{ 
+             // load and use the wasm-loader dictionary
+             loader: require.resolve("wasm-loader"), 
+             options: {} 
+          }],
+       },
         {
           // "oneOf" will traverse all following loaders until one will
           // match the requirements. When no loader matches it will fall
@@ -542,7 +553,7 @@ module.exports = function (webpackEnv) {
               // its runtime that would otherwise be processed through "file" loader.
               // Also exclude `html` and `json` extensions so they get processed
               // by webpacks internal loaders.
-              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/, /\.wasm$/],
               options: {
                 name: 'static/media/[name].[hash:8].[ext]',
               },
