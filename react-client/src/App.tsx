@@ -15,21 +15,22 @@ function App() {
 
    const [joinstate, setJoinState] = useState<string>("");
    const [roomId, setRoomId] = useState<string>("");
-
+   const [message, setMessage] = useState<string[]>([]);
+  
    const [sum, setSum] = useState<number>(0);
    const [fib, setFib] = useState<number>(0);
 
    const user = FirebaseRTC.initdatabase()
 
    async function createBtn() {
-      var result = await FirebaseRTC.createRoom();
+      var result = await FirebaseRTC.createRoom(messageOut);
       setJoinState(`created room ${result}`)
       setRoomId(result);
    }
 
    async function joinBtn() {
       if (roomId != "") {
-      var result:boolean = await FirebaseRTC.joinRoom(roomId);
+      var result:boolean = await FirebaseRTC.joinRoom(roomId,messageOut);
       setJoinState(`joined room: ${result ? "success": "fail"}`)
       }
    
@@ -41,7 +42,9 @@ function App() {
       }
    
    }
-
+   function messageOut(string:string) {
+      setMessage([...message, string]);
+   }
    useEffect(() => {
          console.log("on room id change")
 
@@ -61,12 +64,20 @@ function App() {
          <div>Sum Results: {sum}</div>
          <div>Fib Results: {fib}</div>
          {user}
-         <input type="text" placeholder="firstname" name="name" onChange={e =>setRoomId(e.target.value)}/>
+         <input type="text" placeholder="room code" name="name" onChange={e =>setRoomId(e.target.value)}/>
          <button onClick={createBtn}>create room</button>
          <button onClick={joinBtn}>join room</button>
          <button onClick={leaveBtn}>leave room</button>
 
          <div>log {joinstate}</div>
+         <div>messages:</div>
+         {message.map(string => (
+            <div>
+               {string}
+            </div>
+         ))}
+
+
       </div>
    );
 }
