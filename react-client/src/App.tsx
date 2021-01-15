@@ -1,6 +1,7 @@
 import React , { useState, useEffect } from 'react';
 import './App.css';
 import * as FirebaseRTC from './firebaseRTC'
+
 function App() {
   import('rust-wasm').then(({ add_two_ints, fib }) => {
       // off-loading computations to WASM
@@ -33,18 +34,26 @@ function App() {
       }
    
    }
+   async function leaveBtn() {
+      if (roomId != "") {
+      FirebaseRTC.onClose(roomId)
+      setJoinState(``)
+      }
+   
+   }
 
    useEffect(() => {
+         console.log("on room id change")
 
-      const onbeforeunloadFn = () => {
-         FirebaseRTC.onClose(roomId)
-      }
+         const onbeforeunloadFn = () => {
+            console.log("ran delete")
+            FirebaseRTC.onClose(roomId)
+         }
+         window.addEventListener('beforeunload', onbeforeunloadFn);
 
-      window.addEventListener('beforeunload', onbeforeunloadFn);
-      return () => {
-         window.removeEventListener('beforeunload', onbeforeunloadFn);
-      }
-   }, [])
+         return () => window.removeEventListener("beforeunload", onbeforeunloadFn);
+     
+   }, [roomId])
 
    return (
       // Displaying our sum and fib values that're updated by WASM
@@ -55,6 +64,8 @@ function App() {
          <input type="text" placeholder="firstname" name="name" onChange={e =>setRoomId(e.target.value)}/>
          <button onClick={createBtn}>create room</button>
          <button onClick={joinBtn}>join room</button>
+         <button onClick={leaveBtn}>leave room</button>
+
          <div>log {joinstate}</div>
       </div>
    );
